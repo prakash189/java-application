@@ -3,30 +3,17 @@ pipeline {
     
     tools
     {
-       maven "Maven"
+       maven "M3"
     }
      
     stages {
       stage('checkout') {
            steps {
              
-                git branch: 'master', url: 'https://github.com/devops4solutions/CI-example.git'
+                git branch: 'main', url: 'https://github.com/prakash189/java-application.git'
              
           }
-        }
-         stage('Tools Init') {
-            steps {
-                script {
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-               def tfHome = tool name: 'Ansible'
-                env.PATH = "${tfHome}:${env.PATH}"
-                 sh 'ansible --version'
-                    
-            }
-            }
-        }
-     
+        }  
         
          stage('Execute Maven') {
            steps {
@@ -46,7 +33,7 @@ pipeline {
                  
              
                
-               sh "ansible-playbook main.yml -i inventories/dev/hosts --user jenkins --key-file ~/.ssh/id_rsa"
+               sh "ansible-playbook main.yml -i inventories/prod/hosts --user ubuntu --key-file /home/ubuntu/.ssh/id_rsa"
 
                
             
